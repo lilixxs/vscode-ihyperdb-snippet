@@ -3,11 +3,9 @@
   "displayName": "vscode-iHyperDB-Snippet",
   "description": "iHyperDB 语法、公式、常用片段补全 -- iHyperDB Syntax/Function/Snippets collection",
   "version": "0.0.1",
-  "publisher": "adei2009",
-  "author": {
-    "name": "lilixxs",
-    "email": "lilitju2018@google.com"
-  },
+  "publisher": "lilixxs",
+  "author": {"name": "lilixxs","email": "lilitju2018@google.com"},
+  "repository": {"url": "https://github.com/lilixxs/vscode-ihyperdb-snippet"},
   "engines": {
     "vscode": "^1.71.0"
   },
