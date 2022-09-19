@@ -1,0 +1,20 @@
+{
+  "name": "vscode-ihyperdb-snippet",
+  "displayName": "vscode-iHyperDB-Snippet",
+  "description": "iHyperDB 语法、公式、常用片段补全 -- iHyperDB Syntax/Function/Snippets collection",
+  "version": "0.0.1",
+  "engines": {
+    "vscode": "^1.71.0"
+  },
+  "categories": [
+    "Snippets"
+  ],
+  "contributes": {
+    "snippets": [
+      {
+        "language": "'c'",
+        "path": "./snippets/snippets.code-snippets"
+      }
+    ]
+  }
+}
