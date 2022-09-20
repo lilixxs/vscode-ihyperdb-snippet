@@ -8,19 +8,20 @@ This is the README for extension "vscode-ihyperdb-snippet".
 此插件提供 iHyperDB 计算点表达式的 常见逻辑语法、函数、常用代码的补全
 
 表达式文档见：[iHyperDB手册-计算点表达式](https://product.baosight.com/wp-content/uploads/doc/ihdonline/index.html)
-![Img](https://github.com/lilixxs/vscode-ihyperdb-snippet/blob/main/FILES/README.md/img-20220919225354.png)
+![helpPageOfficial](FILES\README.md\img-20220919225354.png)
 
 下方说明格式
 说明：补全需要输入的关键词 1 / 关键词 2 / ... / 关键词 n
 (输入**任意一个关键词的一部分**就能能显示相应的补全选项)
 
 1. 常见逻辑语法补全
-   ![Syntax-snippet](https://github.com/lilixxs/vscode-ihyperdb-snippet/blob/main/FILES/README.md/img-20220919224226.gif)
+   ![Syntax-snippet](FILES\README.md\img-20220919224226.gif)
    1. `if...else`指令：ihdifelse / ihdifel
    2. `if...elseif...`指令：ihdifelif / ihdifelseif
    3. `Condition`(三元运算符)指令：ihdCondition
 2. 表达式内建函数补全
-    ![Function-snippet](https://github.com/lilixxs/vscode-ihyperdb-snippet/blob/main/FILES/README.md/img-20220919225632.gif)
+    ![Function-snippet](FILES\README.md\img-20220919225632.gif)
+    
     1. `FilExtream()`极大值过滤：ihdFilExtream / ihdFilExtreme / Filter Extreme iHD
     2. `TagYear()`点的快照时间的年份：ihdTagYear / Year of tag time iHD
     3. `TagMonth()`点的快照时间的月份：ihdTagMonth / Month of tag time iHD
@@ -37,7 +38,7 @@ This is the README for extension "vscode-ihyperdb-snippet".
     14. `NoneRecord()`检查点是否有历史记录：ihdNoneRecord / is record of tag exists / No record of tag / record is empty
     15. `PreBadVal()`点前一条记录的数据质量：ihdPreBadVal / Previous record of tag is bad / "record quality / status is bad/good"
 3. 常用代码补全
-    ![Useful-Snippet](https://github.com/lilixxs/vscode-ihyperdb-snippet/blob/main/FILES/README.md/img-20220919225642.gif)
+    ![Useful-Snippet](FILES\README.md\img-20220919225642.gif)
     1. `trigUP`上升沿：ihd Positive Transition (P) | ihdTriggerUP
     2. `trigDown`下降沿：ihd Negative Transition (N) | ihdTriggerDown
     3. `compare3`在两数区间：ihdcompare3 | x<=y<=z | x>=y>=z | between | 3 vars compare
