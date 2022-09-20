@@ -63,7 +63,7 @@ Official online manual about calculation point see the link above.
 
 ## 插件设置 Extension Settings
 
-<font color=red>需要在 c 语言模式下，插件才能提供自动补全功能<br>This snippet extension runs **<font color=red>ONLY</foint>** in C language mode</font>
+<font color=red>需要在 c 语言模式下，插件才能提供自动补全功能<br>This snippet extension runs **<font color=red>ONLY</font>** in C language mode</font>
 
 ![Run_in_C_mode](FILES/README.md/img-20220920220957.png)
 
