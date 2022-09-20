@@ -81,7 +81,7 @@ iHyperDB has its unique syntax rules so that some snippets conflict with C langu
 最初版本。
 Initial release.
 
-### 0.0.2 & 0.0.3
+### 0.0.2 & 0.0.3 & 0.0.4
 
 更新 README.md
 Update README.md.
