@@ -55,8 +55,9 @@ npm run check:marketplace 0.1.1                 # 校验 Marketplace 是否已�
 - Open VSX 仍要 `OVSX_PAT`；缺失时打 warning 并跳过，不影响 Marketplace 发布。
 - 手动触发 `release.yml` 时 `dry_run` 默认 true，只打包不发布。
 - 发布后必须验证：`release.yml` 会跑 `scripts/check-marketplace.mjs`，版本未上线就失败。
-  不要只看 `vsce publish` 的退出码：`--skip-duplicate` 会把「版本号已占用但未生效」当成成功。
-- 0.1.0 就是被这个问题吞掉的（上传被接收但未收录）。改版本号重发，不要复用旧版本号。
+  不要只看 `vsce publish` 的退出码：`--skip-duplicate` 会把重复发布当成成功。
+- Marketplace 索引有数分钟延迟。发布后立即查询看不到新版本是正常现象，用上面的脚本轮询。
+- 首次新增 workflow 并与标签同一次 push 时，Release 可能不触发（工作流注册竞态）。重推标签即可。
 
 ## iHyperDB 语法约束
 

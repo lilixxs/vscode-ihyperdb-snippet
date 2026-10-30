@@ -7,9 +7,10 @@
 
 ### 修复
 
-- 发布流水线补上闭环校验：发布后用 `scripts/check-marketplace.mjs` 查询 Marketplace 版本，未上线则失败。
-- 背景：0.1.0 的上传被 Marketplace 接收但版本未生效，`vsce publish --skip-duplicate` 把它当作「已发布」静默跳过。
-  0.1.0 未公开上线，改用 0.1.1 重新发布同样内容。
+- 发布流水线补上闭环校验：发布后轮询 Marketplace，版本未上线则失败（`scripts/check-marketplace.mjs`）。
+- 背景：0.1.0 上传成功，但 Marketplace 索引有数分钟延迟，早期查询看不到新版本。
+  `vsce publish --skip-duplicate` 会把重复发布当作成功，掩盖「版本尚未生效」。
+- 结果：0.1.0 与 0.1.1 均已上线，0.1.1 为当前最新版本。
 
 ## [0.1.0] - 2026-10-31
 
