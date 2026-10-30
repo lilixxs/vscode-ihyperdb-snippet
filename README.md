@@ -151,7 +151,8 @@ npm run test:smoke    # 在真实 VS Code 里验证补全是否出现（需本�
 ```
 
 发布：推送 `v<version>` 标签，由 `.github/workflows/release.yml` 打包并发布。
-仓库需要在 GitHub Secrets 里配置 `VSCE_PAT`（VS Code Marketplace）和可选的 `OVSX_PAT`（Open VSX）。
+Marketplace 使用 Trusted Publishing（OIDC），不需要配置 `VSCE_PAT`。
+Open VSX 需要可选的 `OVSX_PAT`，未配置时跳过。
 标签必须与 `package.json` 版本一致，否则流水线失败。
 
 ## 更多信息 For more information

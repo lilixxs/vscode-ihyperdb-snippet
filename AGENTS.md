@@ -49,7 +49,9 @@ npm run check:version v0.1.0                    # 标签与版本一致性
 - 推送 `v<version>` 标签触发 `release.yml`：校验标签与版本一致 → 打包 → 发布 → 建 GitHub Release。
 - 版本号要同步三处：`package.json` 的 `version`、`package-lock.json` 根 `version` 和 `packages[""].version`。
   `validate` 会校验这三处。
-- 密钥：`VSCE_PAT` 必需，`OVSX_PAT` 可选。缺失时流水线打 warning 并跳过发布，不报错。
+- 发布认证：Marketplace 走 Trusted Publishing（OIDC）。工作流已声明 `id-token: write`，无需 `VSCE_PAT`。
+  配了 `VSCE_PAT` 时优先用 PAT；两者都没有时发布步骤会失败，不再静默跳过。
+- Open VSX 仍要 `OVSX_PAT`；缺失时打 warning 并跳过，不影响 Marketplace 发布。
 - 手动触发 `release.yml` 时 `dry_run` 默认 true，只打包不发布。
 - Marketplace 已有 0.0.4，但仓库没有对应提交。不要假设仓库版本等于线上版本。
 

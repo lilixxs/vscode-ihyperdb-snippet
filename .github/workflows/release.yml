@@ -12,6 +12,7 @@ on:
 
 permissions:
   contents: write
+  id-token: write
 
 jobs:
   release:
@@ -37,17 +38,20 @@ jobs:
         env:
           VSCE_PAT: ${{ secrets.VSCE_PAT }}
         run: |
-          if [ -z "${VSCE_PAT}" ]; then
-            echo "::warning::未配置 VSCE_PAT，跳过 Marketplace 发布"
-            exit 0
+          set -euo pipefail
+          if [ -n "${VSCE_PAT:-}" ]; then
+            echo "使用 VSCE_PAT 发布"
+            npx vsce publish --packagePath ihyperdb-snippet.vsix --pat "${VSCE_PAT}" --skip-duplicate
+          else
+            echo "未配置 VSCE_PAT，改用 Trusted Publishing (OIDC)"
+            npx vsce publish --packagePath ihyperdb-snippet.vsix --oidc --skip-duplicate
           fi
-          npx vsce publish --packagePath ihyperdb-snippet.vsix
       - name: 发布到 Open VSX
         if: github.event_name == 'push' || inputs.dry_run == false
         env:
           OVSX_PAT: ${{ secrets.OVSX_PAT }}
         run: |
-          if [ -z "${OVSX_PAT}" ]; then
+          if [ -z "${OVSX_PAT:-}" ]; then
             echo "::warning::未配置 OVSX_PAT，跳过 Open VSX 发布"
             exit 0
           fi
