@@ -1,0 +1,65 @@
+name: Release
+
+on:
+  push:
+    tags: ['v*.*.*']
+  workflow_dispatch:
+    inputs:
+      dry_run:
+        description: 只打包，不发布
+        type: boolean
+        default: true
+
+permissions:
+  contents: write
+
+jobs:
+  release:
+    name: 构建与发布
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+      - run: npm ci
+      - run: npm run validate
+      - name: 校验标签与版本一致
+        if: github.event_name == 'push'
+        run: node scripts/check-version.mjs "$GITHUB_REF_NAME"
+      - name: 打包
+        run: npm run package -- --out ihyperdb-snippet.vsix
+      - name: 发布到 VS Code Marketplace
+        if: github.event_name == 'push' || inputs.dry_run == false
+        env:
+          VSCE_PAT: ${{ secrets.VSCE_PAT }}
+        run: |
+          if [ -z "${VSCE_PAT}" ]; then
+            echo "::warning::未配置 VSCE_PAT，跳过 Marketplace 发布"
+            exit 0
+          fi
+          npx vsce publish --packagePath ihyperdb-snippet.vsix
+      - name: 发布到 Open VSX
+        if: github.event_name == 'push' || inputs.dry_run == false
+        env:
+          OVSX_PAT: ${{ secrets.OVSX_PAT }}
+        run: |
+          if [ -z "${OVSX_PAT}" ]; then
+            echo "::warning::未配置 OVSX_PAT，跳过 Open VSX 发布"
+            exit 0
+          fi
+          npx --yes ovsx publish ihyperdb-snippet.vsix -p "${OVSX_PAT}"
+      - uses: actions/upload-artifact@v4
+        with:
+          name: vsix
+          path: '*.vsix'
+          if-no-files-found: error
+      - name: 创建 GitHub Release
+        if: github.event_name == 'push'
+        uses: softprops/action-gh-release@v2
+        with:
+          files: ihyperdb-snippet.vsix
+          generate_release_notes: true

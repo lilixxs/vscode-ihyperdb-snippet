@@ -1,0 +1,12 @@
+.github/**
+.vscode/**
+.vscode-test/**
+node_modules/**
+scripts/**
+test/**
+temp_images/**
+AGENTS.md
+.gitignore
+.gitattributes
+*.vsix
+package-lock.json

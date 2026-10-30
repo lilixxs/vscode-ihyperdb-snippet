@@ -8,7 +8,10 @@
 		"description": ["iHD 计算点表达式",
 						"if()...else()",
 						"",
-						"if(条件 Condition)else..."]
+						"if(条件 Condition)else...",
+						"",
+						"规则：IF 语句不能缺少 ELSE 分支，关键字后的表达式都要加括号"
+					]
 	},
 	"ihd syntax ifelif":{
 		"prefix": ["ihdifelif", "ihdifelseif"],
@@ -16,7 +19,7 @@
 					"THEN(${2:Action1})",
 					"ELSEIF(${3:Condition2})",
 					"THEN(${4:Action2})",
-					"ELSE(${5:Condition3})",
+					"ELSE(${5:Action-else})"
 				],
 		"description": ["iHD 计算点表达式",
 						"if()...elseif()...else()",
@@ -37,13 +40,25 @@
 							"(Condition)?(Action True):(Action False)",
 							"",
 							"满足 Condition 时，执行 Action True",
-							"不满足 Condition 时，执行 Action False"
+							"不满足 Condition 时，执行 Action False",
+							"",
+							"规则：?: 可以嵌套，嵌套时用 () 标明运算顺序"
 					]
+	},
+	"ihd syntax NotEqual":{
+		"prefix": ["ihdNotEqual","<>","not equal iHD","不等于"],
+		"body": ["('${1:tag1}'<>'${2:tag2}')"],
+		"description": [	"iHD 计算点表达式",
+							"不相等比较：('tag1'<>'tag2')",
+							"",
+							"iHD 用 <> 表示不等于，不要写 C 语言的 !=",
+							"关系运算结果为布尔值：满足为 1，不满足为 0"
+						]
 	},
 	"ihd func FilExtream":{
 		"prefix": ["ihdFilExtream","ihdFilExtreme","Filter Extreme iHD"],
 		"body": ["FilExtream('${1:pt_tag}', ${2:cal_tag}, ${3:timeInterval}, ${4:fValue})"],
-		"description": ["iHD 计算点函数 filExtream",
+		"description": ["iHD 计算点函数 FilExtream",
 						"极大值过滤 -- Filter Extreme",
 						"",
 						"FilExtream('pt_tag', cal_tag, timeInterval, fValue)",
@@ -55,10 +70,18 @@
 						"(不带单引号，类型必须为计算点)",
 						"",
 						"@ timeInterval = 允许过滤的最大间隔",
-						"(单位秒)",
+						"(单位秒，要大于被过滤点的实际采集间隔)",
 						"",
 						"@ fValue = 过滤的阈值",
-						"阈值计算规则: 代表从起始时间开始，pt_tag的第二个点与第一个点比较，\n如果两点连线的斜率大于 fValue，则过滤第二个点，\n如果小于 fValue，则将第二个点保留"
+						"(一般取较小的正数；取 1 相当于过滤斜率角大于 45 度的点)",
+						"",
+						"过滤规则：斜率 (pt_tag.value - cal_tag.value)/(pt_tag.time - cal_tag.time)",
+						"大于 fValue 时丢弃当前点，否则保存当前点",
+						"当前点距上一条 good 记录超过 timeInterval 时直接保存",
+						"数据质量为 bad 的点直接保存，且不参与后续比较",
+						"",
+						"计算周期要小于被过滤点的采集周期，否则会在过滤前跳过部分点",
+						"不要与其他运算（+ - * /）混用"
 					]
 	},
 	"ihd func TagYear":{
@@ -69,7 +92,7 @@
 						"",
 						"TagYear('pt_tag')",
 						"",
-						"@ pt_tag = 查询的点名 (要带单引号)",
+						"@ pt_tag = 查询的点名 (要带单引号)"
 					]
 	},
 	"ihd func TagMonth":{
@@ -80,7 +103,7 @@
 						"",
 						"TagMonth('pt_tag')",
 						"",
-						"@ pt_tag = 查询的点名 (要带单引号)",
+						"@ pt_tag = 查询的点名 (要带单引号)"
 					]
 	},
 	"ihd func TagDay":{
@@ -91,7 +114,7 @@
 						"",
 						"TagDay('pt_tag')",
 						"",
-						"@ pt_tag = 查询的点名 (要带单引号)",
+						"@ pt_tag = 查询的点名 (要带单引号)"
 					]
 	},
 	"ihd func TagHour":{
@@ -102,18 +125,18 @@
 						"",
 						"TagHour('pt_tag')",
 						"",
-						"@ pt_tag = 查询的点名 (要带单引号)",
+						"@ pt_tag = 查询的点名 (要带单引号)"
 					]
 	},
 	"ihd func TagMinute":{
 		"prefix": ["ihdTagMinute","Minute of tag time iHD"],
 		"body": ["TagMinute('${1:pt_tag}')"],
 		"description": ["iHD 计算点函数 TagMinute",
-						"获取点 pt_tag 的快照时间的分钟 (0-69) -- Tag Minute",
+						"获取点 pt_tag 的快照时间的分钟 (0-59) -- Tag Minute",
 						"",
 						"TagMinute('pt_tag')",
 						"",
-						"@ pt_tag = 查询的点名 (要带单引号)",
+						"@ pt_tag = 查询的点名 (要带单引号)"
 					]
 	},
 	"ihd func TagSecond":{
@@ -124,7 +147,19 @@
 						"",
 						"TagSecond('pt_tag')",
 						"",
+						"@ pt_tag = 查询的点名 (要带单引号)"
+					]
+	},
+	"ihd func TagWeekday":{
+		"prefix": ["ihdTagWeekday","Weekday of tag time iHD"],
+		"body": ["TagWeekday('${1:pt_tag}')"],
+		"description": ["iHD 计算点函数 TagWeekday",
+						"获取点 pt_tag 的快照时间的星期 (1-7) -- Tag weekday",
+						"",
+						"TagWeekday('pt_tag')",
+						"",
 						"@ pt_tag = 查询的点名 (要带单引号)",
+						"@ 返回值 = 1-7，对应关系以现场 iHD 服务端定义为准"
 					]
 	},
 	"ihd func TagYearday":{
@@ -133,9 +168,9 @@
 		"description": ["iHD 计算点函数 TagYearday",
 						"获取点 pt_tag 的快照时间是今年的第几天 (1-366) -- Tag day of the year",
 						"",
-						"TagDay('pt_tag')",
+						"TagYearday('pt_tag')",
 						"",
-						"@ pt_tag = 查询的点名 (要带单引号)",
+						"@ pt_tag = 查询的点名 (要带单引号)"
 					]
 	},
 	"ihd func TagDaysec":{
@@ -144,9 +179,9 @@
 		"description": ["iHD 计算点函数 TagDaysec",
 						"获取点 pt_tag 的快照时间是今天的第几秒 (0-86399) -- Tag second of the day",
 						"",
-						"TagDay('pt_tag')",
+						"TagDaysec('pt_tag')",
 						"",
-						"@ pt_tag = 查询的点名 (要带单引号)",
+						"@ pt_tag = 查询的点名 (要带单引号)"
 					]
 	},
 	"ihd func TagUnixsec":{
@@ -154,11 +189,11 @@
 		"body": ["TagUnixsec('${1:pt_tag}')"],
 		"description": ["iHD 计算点函数 TagUnixsec",
 						"获取点 pt_tag 的快照时间的 Unix 时间戳 -- Tag Unix timestamp",
-						"Unix 时间戳 = 从 1970-1-1 00:00:00 以来经过的秒数",
+						"Unix 时间戳 = 从 1970-01-01 00:00:00 到快照时间经过的秒数",
 						"",
-						"TagDay('pt_tag')",
+						"TagUnixsec('pt_tag')",
 						"",
-						"@ pt_tag = 查询的点名 (要带单引号)",
+						"@ pt_tag = 查询的点名 (要带单引号)"
 					]
 	},
 	"ihd func PrevVal":{
@@ -184,13 +219,43 @@
 						"- 常用于 if...else 逻辑中，不需要 else 输出的情况",
 						"",
 						"NoOutput()",
+						"",
+						"例：过滤掉小于等于 100 的源值",
+						"if('Tag1'>100) then('Tag1') else(NoOutput())"
+					]
+	},
+	"ihd func BadVal":{
+		"prefix": ["ihdBadVal","Bad record of tag iHD","data quality is bad iHD"],
+		"body": ["BadVal('${1:pt_tag}')"],
+		"description": ["iHD 计算点函数 BadVal",
+						"检查点 pt_tag 的数据质量是否为 bad -- quality is bad",
+						"",
+						"BadVal('pt_tag')",
+						"",
+						"@ pt_tag = 查询的点名 (要带单引号)",
+						"@ 返回值：1 = 数据质量为 bad；0 = 其他",
+						"",
+						"例：过滤掉数据质量为 bad 的点",
+						"if(BadVal('tag1')) then(NoOutput()) else('tag1')"
+					]
+	},
+	"ihd func PreUnixsec":{
+		"prefix": ["ihdPreUnixsec","Previous unix timestamp of tag iHD"],
+		"body": ["PreUnixsec('${1:pt_tag}')"],
+		"description": ["iHD 计算点函数 PreUnixsec",
+						"获取点 pt_tag 前一条记录的 Unix 时间戳",
+						"Unix 时间戳 = 从 1970-01-01 00:00:00 经过的秒数",
+						"",
+						"PreUnixsec('pt_tag')",
+						"",
+						"@ pt_tag = 查询的点名 (要带单引号)"
 					]
 	},
 	"ihd func PreMs":{
 		"prefix": ["ihdPreMs","Previous millisecond of tag iHD"],
 		"body": ["PreMs('${1:pt_tag}')"],
 		"description": ["iHD 计算点函数 PreMs",
-						"获取点 pt_tag 前一条记录的毫秒值 -- millisecond of previous record",
+						"获取点 pt_tag 前一条记录的毫秒值 (0-999)",
 						"",
 						"PreMs('pt_tag')",
 						"",
@@ -216,7 +281,7 @@
 		"description": ["iHD 计算点函数 PreBadVal",
 						"获取点 pt_tag 前一条记录的数据质量\n-- last record's status/quality of tag",
 						"",
-						"NoneRecord('pt_tag')",
+						"PreBadVal('pt_tag')",
 						"",
 						"@ pt_tag = 被过滤的点名 (要带单引号)",
 						"@ 返回值：0 = 质量为 Good；1 = 其他"
