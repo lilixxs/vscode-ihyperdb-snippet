@@ -56,6 +56,9 @@ jobs:
             exit 0
           fi
           npx --yes ovsx publish ihyperdb-snippet.vsix -p "${OVSX_PAT}"
+      - name: 校验 Marketplace 已上线
+        if: github.event_name == 'push' || inputs.dry_run == false
+        run: node scripts/check-marketplace.mjs "$(node -p "require('./package.json').version")" --wait 420
       - uses: actions/upload-artifact@v4
         with:
           name: vsix

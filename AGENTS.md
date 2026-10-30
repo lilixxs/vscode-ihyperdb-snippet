@@ -18,6 +18,7 @@ npm run validate                                # 校验片段、清单、README
 npm run package -- --out ihyperdb-snippet.vsix  # 生成 vsix
 npm run test:smoke                              # 真实 VS Code 冒烟测试
 npm run check:version v0.1.0                    # 标签与版本一致性
+npm run check:marketplace 0.1.1                 # 校验 Marketplace 是否已上线该版本
 ```
 
 没有 lint 和单元测试框架。`npm run validate` 就是门禁，不要跳过。
@@ -53,7 +54,9 @@ npm run check:version v0.1.0                    # 标签与版本一致性
   配了 `VSCE_PAT` 时优先用 PAT；两者都没有时发布步骤会失败，不再静默跳过。
 - Open VSX 仍要 `OVSX_PAT`；缺失时打 warning 并跳过，不影响 Marketplace 发布。
 - 手动触发 `release.yml` 时 `dry_run` 默认 true，只打包不发布。
-- Marketplace 已有 0.0.4，但仓库没有对应提交。不要假设仓库版本等于线上版本。
+- 发布后必须验证：`release.yml` 会跑 `scripts/check-marketplace.mjs`，版本未上线就失败。
+  不要只看 `vsce publish` 的退出码：`--skip-duplicate` 会把「版本号已占用但未生效」当成成功。
+- 0.1.0 就是被这个问题吞掉的（上传被接收但未收录）。改版本号重发，不要复用旧版本号。
 
 ## iHyperDB 语法约束
 

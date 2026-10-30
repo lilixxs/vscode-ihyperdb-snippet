@@ -3,6 +3,14 @@
 本文件记录 vscode-ihyperdb-snippet 的版本变更。
 格式参考 [Keep a Changelog](https://keepachangelog.com/zh-CN/1.1.0/)，版本号遵循 [SemVer](https://semver.org/lang/zh-CN/)。
 
+## [0.1.1] - 2026-10-31
+
+### 修复
+
+- 发布流水线补上闭环校验：发布后用 `scripts/check-marketplace.mjs` 查询 Marketplace 版本，未上线则失败。
+- 背景：0.1.0 的上传被 Marketplace 接收但版本未生效，`vsce publish --skip-duplicate` 把它当作「已发布」静默跳过。
+  0.1.0 未公开上线，改用 0.1.1 重新发布同样内容。
+
 ## [0.1.0] - 2026-10-31
 
 ### 修复

@@ -119,6 +119,11 @@ Type **part of any keyword** to open the suggestion list.
 
 ## 版本发布 Release Notes
 
+### 0.1.1
+
+- 发布流程修复：0.1.0 的上传未被 Marketplace 收录，改用 0.1.1 重新发布。
+- 流水线新增「校验 Marketplace 已上线」步骤，版本未生效时报错。
+
 ### 0.1.0
 
 - 修正 `contributes.snippets.language`：由 `'c'` 改为 `c`。此前语言 ID 带引号，片段不会挂载。

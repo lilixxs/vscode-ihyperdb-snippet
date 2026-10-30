@@ -2,7 +2,7 @@
   "name": "vscode-ihyperdb-snippet",
   "displayName": "vscode-iHyperDB-Snippet",
   "description": "iHyperDB 计算点表达式补全：逻辑语法、内置函数、常用代码片段 -- iHyperDB calculation expression snippets",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "publisher": "lilixxs",
   "author": {
     "name": "lilixxs",
@@ -34,6 +34,7 @@
     "validate": "node scripts/validate-snippets.mjs",
     "package": "vsce package",
     "check:version": "node scripts/check-version.mjs",
+    "check:marketplace": "node scripts/check-marketplace.mjs",
     "test:smoke": "node test/runTest.cjs"
   },
   "devDependencies": {
