@@ -11,7 +11,6 @@ Snippets for iHyperDB calculation-point expressions: syntax, built-in functions,
 - [iHyperDB 在线手册 Online manual](https://res.baowugroup.com/baosightproduct/wp-content/uploads/doc/ihdonline/welcomepage.htm)
 - [计算点表达式章节 Calculation point](https://res.baowugroup.com/baosightproduct/wp-content/uploads/doc/ihdonline/tag_calculate.htm)
 
-> 手册域名已迁移，README 旧版本里的 `product.baosight.com/.../ihdonline/` 地址已 404。
 
 ## 功能 Features
 
